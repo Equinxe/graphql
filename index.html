@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="description" content="Zone01 Student Profile Dashboard" />
+    <meta name="theme-color" content="#000000" />
+    <title>Zone01 Profile</title>
+    <link rel="stylesheet" href="src/css/style.css" />
+  </head>
+  <body>
+    <!-- Modern navigation bar (hidden by default) -->
+    <nav class="navbar" id="mainNavbar" style="display: none">
+      <div class="nav-brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">Zone01</span>
+      </div>
+      <div class="nav-menu">
+        <a href="#" class="nav-link" id="navCursus" style="display: none">
+          <span class="nav-icon">🎯</span>
+          <span class="nav-text">Cursus</span>
+        </a>
+        <a href="#" class="nav-link" id="navPiscineGo" style="display: none">
+          <span class="nav-icon">🏊‍♂️</span>
+          <span class="nav-text">Piscine Go</span>
+        </a>
+        <a href="#" class="nav-link" id="navPiscineJs" style="display: none">
+          <span class="nav-icon">💻</span>
+          <span class="nav-text">Piscine JS</span>
+        </a>
+        <a href="#" class="nav-link" id="navTotal" style="display: none">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Total</span>
+        </a>
+      </div>
+      <button class="logout-btn" id="logoutBtn" style="display: none">
+        <span class="logout-icon">🚪</span>
+        <span class="logout-text">Logout</span>
+      </button>
+    </nav>
+    <div class="container">
+      <div id="loginSection" class="login-container">
+        <div class="login-header">
+          <div class="login-brand">
+            <span class="brand-icon-large">⚡</span>
+            <h1 class="brand-title">Zone01</h1>
+            <p class="brand-subtitle">Student Dashboard</p>
+          </div>
+        </div>
+        <div class="login-card">
+          <h2>Welcome Back</h2>
+          <p class="login-description">
+            Sign in to access your Zone01 profile and track your progress
+          </p>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="identifier">Username or Email:</label>
+              <input type="text" id="identifier" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" required />
+            </div>
+            <div class="form-group-button">
+              <button type="submit" class="btn">Login</button>
+            </div>
+            <div id="errorMessage" class="error" style="display: none"></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="profileSection" class="profile">
+        <div class="profile-header">
+          <div class="user-identity">
+            <div class="avatar-section">
+              <div class="user-avatar">
+                <span class="avatar-placeholder">👤</span>
+              </div>
+            </div>
+            <div class="user-main-info">
+              <h1 id="userName">Loading...</h1>
+              <p class="user-email" id="userEmail">Loading...</p>
+              <div class="user-meta-grid">
+                <div class="meta-item">
+                  <span class="meta-icon">🆔</span>
+                  <span class="meta-label">ID:</span>
+                  <span class="meta-value" id="userId">Loading...</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-icon">🏫</span>
+                  <span class="meta-label">Campus:</span>
+                  <span class="meta-value" id="userCampus">Loading...</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-icon">🐙</span>
+                  <span class="meta-label">GitHub:</span>
+                  <span class="meta-value" id="userGithub">Loading...</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-icon">📅</span>
+                  <span class="meta-label">Created:</span>
+                  <span class="meta-value" id="userCreated">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button
+              id="toggleAdditionalInfo"
+              onclick="toggleAdditionalInfo()"
+              class="info-toggle-btn"
+              aria-label="Toggle additional information"
+            >
+              <span class="toggle-icon">ℹ️</span>
+              <span class="toggle-text">More Info</span>
+              <span class="toggle-arrow">▼</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="additionalInfoSection" class="additional-info-section">
+          <div class="additional-info-header">
+            <h3>
+              <span class="section-icon">📋</span>
+              Additional Information
+            </h3>
+          </div>
+          <div class="additional-info-grid">
+            <div class="info-group">
+              <h4>Contact Information</h4>
+              <div class="info-items">
+                <div class="info-item">
+                  <span class="info-icon">📧</span>
+                  <span class="info-label">Email:</span>
+                  <span class="info-value" id="userEmailSecondary">N/A</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-icon">📞</span>
+                  <span class="info-label">Phone:</span>
+                  <span class="info-value" id="userPhone">N/A</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-icon">📍</span>
+                  <span class="info-label">Address:</span>
+                  <div class="info-value address-details" id="userAddress">
+                    <div id="addressStreet"></div>
+                    <div id="addressCity"></div>
+                    <div id="addressPostalCode"></div>
+                    <div id="addressCountry"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-group">
+              <h4>Professional Information</h4>
+              <div class="info-items">
+                <div class="info-item">
+                  <span class="info-icon">🏢</span>
+                  <span class="info-label">Company:</span>
+                  <span class="info-value" id="userCompany">N/A</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-icon">💼</span>
+                  <span class="info-label">Position:</span>
+                  <span class="info-value" id="userPosition">N/A</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-icon">📋</span>
+                  <span class="info-label">Situation:</span>
+                  <span class="info-value" id="userSituation">N/A</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="additional-info-grid">
+            <div class="info-group">
+              <h4>Emergency Information</h4>
+              <div class="info-items" id="emergencyAttrs"></div>
+            </div>
+
+            <div class="info-group">
+              <h4>About</h4>
+              <div class="info-items" id="aboutAttrs"></div>
+            </div>
+          </div>
+
+          <div class="info-group other-attributes-section" id="otherAttrsGroup">
+            <h4>Other</h4>
+            <div class="info-items" id="otherAttrsContent"></div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total XP</h3>
+            <div class="stat-value" id="totalXP">0</div>
+            <p>All Experience Points</p>
+          </div>
+          <div class="stat-card">
+            <h3>Piscine Go XP</h3>
+            <div class="stat-value" id="piscineGoXP">0</div>
+            <p>Go Piscine Experience</p>
+          </div>
+          <div class="stat-card">
+            <h3>Piscine JS XP</h3>
+            <div class="stat-value" id="piscineJsXP">0</div>
+            <p>JavaScript Piscine Experience</p>
+          </div>
+          <div class="stat-card">
+            <h3>Cursus XP</h3>
+            <div class="stat-value" id="cursusXP">0</div>
+            <p>Main Curriculum Experience</p>
+          </div>
+          <div class="stat-card">
+            <h3>Projects Completed</h3>
+            <div class="stat-value" id="projectsCount">0</div>
+            <p>Successfully finished</p>
+          </div>
+          <div class="stat-card">
+            <h3>Success Rate</h3>
+            <div class="stat-value" id="auditRatio">0.0</div>
+            <p>Overall success percentage</p>
+          </div>
+        </div>
+
+        <div class="charts-container">
+          <div class="chart-card main-chart">
+            <h3>Cumulative XP Progress</h3>
+            <svg id="cumulativeXpChart" height="320"></svg>
+          </div>
+          <div class="charts-grid">
+            <div class="chart-card">
+              <h3>Project Success Rate</h3>
+              <svg id="successChart" height="300"></svg>
+            </div>
+            <div class="chart-card">
+              <h3>XP Distribution by Path</h3>
+              <svg id="xpDistributionChart" height="300"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="loadingSection" class="loading" style="display: none">
+        Loading your profile data...
+      </div>
+    </div>
+
+    <div class="chart-tooltip" id="tooltip"></div>
+
+    <script type="module" src="src/js/main.js"></script>
+    <script type="module" src="src/js/api.js"></script>
+    <script type="module" src="src/js/charts/xpCharts.js"></script>
+    <script type="module" src="src/js/charts/pieChart.js"></script>
+    <script type="module" src="src/js/auth.js"></script>
+    <script type="module" src="src/js/utils.js"></script>
+  </body>
+</html>
