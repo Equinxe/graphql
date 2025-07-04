@@ -71,9 +71,11 @@ body:has(.navbar:not([style*="display: none"])) .container {
 .login-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   padding: 20px;
+  overflow-y: auto;
+  position: relative;
 }
 
 /* Responsivité container */
@@ -90,33 +92,52 @@ body:has(.navbar:not([style*="display: none"])) .container {
     padding: 16px;
     border-radius: 16px;
   }
+  
+  .login-container {
+    min-height: 100vh;
+    padding: 15px 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
 }
 
 .login-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
-  padding: 40px 20px;
-  gap: 40px;
+  padding: 30px 20px;
+  gap: 24px;
+  overflow-y: auto;
+  padding-top: 40px;
+}
+
+/* Responsive gap pour mobile */
+@media (max-width: 768px) {
+  .login-container {
+    gap: 16px;
+    padding: 15px 10px;
+    padding-top: 20px;
+  }
 }
 
 /* Login header */
 .login-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .login-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .brand-icon-large {
-  font-size: 64px;
+  font-size: 48px;
   filter: drop-shadow(0 0 20px var(--gold));
   animation: pulse 2s infinite;
 }
@@ -126,8 +147,13 @@ body:has(.navbar:not([style*="display: none"])) .container {
   50% { transform: scale(1.05); }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 .brand-title {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
   background: var(--gradient-gold);
   -webkit-background-clip: text;
@@ -139,7 +165,7 @@ body:has(.navbar:not([style*="display: none"])) .container {
 }
 
 .brand-subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--white-soft);
   opacity: 0.8;
   font-weight: 300;
@@ -150,15 +176,20 @@ body:has(.navbar:not([style*="display: none"])) .container {
 .login-card {
   background: var(--gradient-card);
   color: var(--white);
-  padding: 48px;
+  padding: 36px;
   border-radius: 24px;
   box-shadow: var(--shadow-gold-strong), var(--shadow-dark);
   border: 1px solid rgba(255, 215, 0, 0.2);
   width: 100%;
-  max-width: 480px;
+  max-width: 460px;
   backdrop-filter: blur(15px);
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow: var(--shadow-gold-strong), var(--shadow-dark), 0 0 40px rgba(255, 215, 0, 0.1);
 }
 
 .login-card::before {
@@ -167,51 +198,86 @@ body:has(.navbar:not([style*="display: none"])) .container {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: var(--gradient-gold);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: shimmer 2s infinite;
+}
+
+.login-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .login-description {
   text-align: center;
   color: var(--white-soft);
-  margin-bottom: 32px;
-  font-size: 1rem;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
   opacity: 0.9;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 /* Responsivité login card */
 @media (max-width: 768px) {
   .login-card {
-    padding: 32px 24px;
+    padding: 20px 18px;
     border-radius: 16px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .login-header {
+    margin-bottom: 12px;
+  }
+  
+  .brand-title {
+    font-size: 2.2rem;
+  }
+  
+  .brand-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .brand-icon-large {
+    font-size: 40px;
+  }
+  
+  .login-description {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
   }
 }
 
 .login-card h2 {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: var(--gold);
   text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
 @media (max-width: 768px) {
   .login-card h2 {
-    font-size: 1.75rem;
-    margin-bottom: 24px;
+    font-size: 1.6rem;
+    margin-bottom: 16px;
   }
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-weight: 600;
   color: var(--gold);
   font-size: 0.95rem;
@@ -219,7 +285,7 @@ body:has(.navbar:not([style*="display: none"])) .container {
 
 .form-group input {
   width: 100%;
-  padding: 16px;
+  padding: 14px 16px;
   background: var(--gray-darkest);
   color: var(--white);
   border: 2px solid var(--gray-medium);
@@ -227,6 +293,7 @@ body:has(.navbar:not([style*="display: none"])) .container {
   font-size: 16px;
   font-family: inherit;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .form-group input:focus {
@@ -238,6 +305,18 @@ body:has(.navbar:not([style*="display: none"])) .container {
 
 .form-group input::placeholder {
   color: var(--gray-light);
+}
+
+/* Responsive form inputs */
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-group input {
+    padding: 12px 14px;
+    font-size: 16px; /* Évite le zoom sur iOS */
+  }
 }
 
 .btn, button, input[type="submit"], input[type="button"] {
@@ -274,20 +353,37 @@ body:has(.navbar:not([style*="display: none"])) .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 24px;
   width: 100%;
 }
 
 .form-group-button .btn {
   min-width: 200px;
   max-width: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-group-button .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.form-group-button .btn:hover::before {
+  left: 100%;
 }
 
 .form-group:last-child {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 24px;
   width: 100%;
 }
 
@@ -301,7 +397,8 @@ body:has(.navbar:not([style*="display: none"])) .container {
   .btn, button, input[type="submit"], input[type="button"] {
     width: 100%;
     max-width: 100%;
-    padding: 14px 24px;
+    padding: 12px 24px;
+    font-size: 16px;
   }
   
   .form-group:last-child .btn {
@@ -313,17 +410,60 @@ body:has(.navbar:not([style*="display: none"])) .container {
     min-width: unset;
     max-width: 100%;
   }
+  
+  .form-group-button {
+    margin-top: 20px;
+  }
 }
 
 .error {
   color: #FF6B6B;
-  margin-top: 16px;
+  margin: 16px 0;
   text-align: center;
-  padding: 16px;
+  padding: 12px 16px;
   background: rgba(255, 107, 107, 0.1);
   border: 1px solid rgba(255, 107, 107, 0.3);
   border-radius: 12px;
   font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  border-left: 4px solid #FF6B6B;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Success message styling */
+.success {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: #4CAF50;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.success::before {
+  content: '✅';
+  font-size: 1.1rem;
+}
+
+.success.show {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile {
@@ -336,10 +476,14 @@ body:has(.navbar:not([style*="display: none"])) .container {
   margin-bottom: 32px;
   display: none;
   backdrop-filter: blur(10px);
+  width: 100%;
+  position: relative;
 }
 
 .profile.active {
-  display: block;
+  display: block !important;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Responsivité profil */
@@ -1400,27 +1544,6 @@ body:has(.navbar:not([style*="display: none"])) .container {
   margin-top: 24px;
 }
 
-.info-toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  color: var(--black);
-  border: none;
-  padding: 12px 20px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-  margin-bottom: 16px;
-}
-
-.info-toggle-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
-}
-
 .toggle-icon {
   font-size: 16px;
 }
@@ -1530,4 +1653,186 @@ body:has(.navbar:not([style*="display: none"])) .container {
 
 .address-details div:first-child {
   font-weight: 500;
+}
+
+/* Amélioration de l'accessibilité et UX */
+.form-group input:invalid {
+  border-color: rgba(255, 107, 107, 0.5);
+}
+
+.form-group input:valid {
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.form-group input:required:focus:invalid {
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.form-group input:required:focus:valid {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+/* Enhanced login form states */
+.login-card.loading-state {
+  position: relative;
+  pointer-events: none;
+}
+
+.login-card.loading-state::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 13, 13, 0.8);
+  z-index: 10;
+  border-radius: 24px;
+}
+
+.login-card.loading-state::after {
+  content: '⟳';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: var(--gold);
+  z-index: 11;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.login-card.success-state {
+  border-color: #4CAF50;
+  box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
+}
+
+.login-card.success-state::before {
+  background: linear-gradient(90deg, #4CAF50 0%, var(--gold) 100%);
+}
+
+/* Enhanced form validation states - removed for cleaner UI */
+
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* Enhanced button loading state */
+.btn.loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--black);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+.form-group input,
+.btn,
+.login-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced hover effects */
+.form-group input:hover {
+  border-color: var(--gold-dark);
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-light) 100%);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+}
+
+/* Focus improvements for accessibility */
+.form-group input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+  background: var(--gray-dark);
+}
+
+/* Enhanced error message styling */
+.error {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: #ff6b6b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.error::before {
+  content: '⚠️';
+  font-size: 1.1rem;
+}
+
+.error.show {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Remember me and forgot password (for future implementation) */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0;
+  font-size: 0.9rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--white-soft);
+}
+
+.forgot-password {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: var(--gold-light);
+  text-decoration: underline;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+  .form-group.valid::after,
+  .form-group.error::after {
+    right: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .login-card.loading-state::after {
+    font-size: 2.5rem;
+  }
 }

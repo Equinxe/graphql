@@ -1,7 +1,4 @@
-/**
- * Stats management for tab content
- */
-
+// Stats management for tab content
 import { formatXP, formatAuditRatio } from "../utils.js";
 import { deduplicateTransactions } from "../filters/filter-manager.js";
 

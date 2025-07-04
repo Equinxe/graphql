@@ -8,6 +8,15 @@
     />
     <meta name="description" content="Zone01 Student Profile Dashboard" />
     <meta name="theme-color" content="#000000" />
+
+    <!-- Prevent caching of private data but allow form autocomplete -->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
     <title>Zone01 Profile</title>
     <link rel="stylesheet" href="src/css/style.css" />
   </head>
@@ -58,16 +67,30 @@
           <form id="loginForm">
             <div class="form-group">
               <label for="identifier">Username or Email:</label>
-              <input type="text" id="identifier" required />
+              <input
+                type="text"
+                id="identifier"
+                required
+                autocomplete="username"
+                placeholder="Enter your username or email"
+              />
             </div>
             <div class="form-group">
               <label for="password">Password:</label>
-              <input type="password" id="password" required />
-            </div>
-            <div class="form-group-button">
-              <button type="submit" class="btn">Login</button>
+              <input
+                type="password"
+                id="password"
+                required
+                autocomplete="current-password"
+                placeholder="Enter your password"
+              />
             </div>
             <div id="errorMessage" class="error" style="display: none"></div>
+            <div class="form-group-button">
+              <button type="submit" class="btn">
+                <span class="btn-text">Login</span>
+              </button>
+            </div>
           </form>
         </div>
       </div>

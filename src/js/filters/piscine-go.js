@@ -1,7 +1,4 @@
-/**
- * Piscine Go filter logic
- * Handles filtering for Go piscine data
- */
+// Piscine Go filter logic - handles filtering for Go piscine data
 
 // Filter transactions related to Go piscine
 export function filterPiscineGoTransactions(transactions) {

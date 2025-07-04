@@ -1,7 +1,4 @@
-/**
- * Piscine JS filter logic
- * Handles filtering for JavaScript piscine data
- */
+// Piscine JS filter logic - handles filtering for JavaScript piscine data
 
 // Filter transactions related to JS piscine (excluding cursus project)
 export function filterPiscineJsTransactions(transactions) {

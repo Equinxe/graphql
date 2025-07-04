@@ -1,8 +1,4 @@
-/**
- * Filter Manager
- * Central hub for all tab filtering logic
- */
-
+// Filter Manager - Central hub for all tab filtering logic
 import {
   filterCursusTransactions,
   filterCursusProgresses,

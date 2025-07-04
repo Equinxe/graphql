@@ -1,15 +1,8 @@
-/**
- * Charts management for tab content
- */
-
+// Charts management for tab content
 import { createCumulativeXPChart } from "../charts/xpCharts.js";
 import { createAuditRatioChart } from "../charts/pieChart.js";
 
-/**
- * Generate charts HTML for a tab
- * @param {Object} config - Tab configuration
- * @returns {string} HTML string for charts container
- */
+// Generate charts HTML for a tab
 export function generateChartsHTML(config) {
   return `
     <div class="chart-card">
@@ -29,15 +22,7 @@ export function generateChartsHTML(config) {
   `;
 }
 
-/**
- * Update charts with new data
- * @param {HTMLElement} chartsContainer - Charts container element
- * @param {Array} transactions - Filtered transactions
- * @param {Object} user - User data object
- * @param {string} tab - Tab identifier
- * @param {Object} config - Tab configuration
- * @param {number|null} auditRatioValue - Audit ratio value
- */
+// Update charts with new data
 export function updateCharts(
   chartsContainer,
   transactions,

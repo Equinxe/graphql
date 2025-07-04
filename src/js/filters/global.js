@@ -1,7 +1,4 @@
-/**
- * Global filter logic
- * Returns all data for total/global view
- */
+// Global filter logic - returns all data for total/global view
 
 // Return all transactions for global view
 export function filterGlobalTransactions(transactions) {

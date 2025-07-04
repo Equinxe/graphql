@@ -1,15 +1,6 @@
-import { showTooltip, hideTooltip } from "../utils.js";
+import { showTooltip, hideTooltip, formatXP } from "../utils.js";
 
-function formatXP(xp) {
-  if (xp >= 1000000) {
-    return Math.round(xp / 100000) / 10 + "MB";
-  }
-  if (xp >= 1000) {
-    return Math.round(xp / 100) / 10 + "KB";
-  }
-  return Math.round(xp).toString();
-}
-
+// Create cumulative XP chart showing progress over time
 export function createCumulativeXPChart(
   transactions,
   svgId = "cumulativeXpChart"
@@ -35,7 +26,6 @@ export function createCumulativeXPChart(
   const margin = { top: 30, right: 40, bottom: 60, left: 80 };
   const height = Math.max(300 - margin.top - margin.bottom, 200);
 
-  // Mise à jour des dimensions du SVG
   svg.setAttribute("width", width + margin.left + margin.right);
   svg.setAttribute("height", height + margin.top + margin.bottom);
   svg.setAttribute(
@@ -72,6 +62,7 @@ export function createCumulativeXPChart(
   );
 }
 
+// Create separate XP chart for different paths
 export function createSeparateXPChart(transactions, svgId = "separateXpChart") {
   const svg = document.getElementById(svgId);
   if (!svg || transactions.length === 0) return;
@@ -130,6 +121,7 @@ export function createSeparateXPChart(transactions, svgId = "separateXpChart") {
   );
 }
 
+// Render cumulative XP chart with SVG
 function renderXPChart(
   svg,
   points,
@@ -183,6 +175,7 @@ function renderXPChart(
   });
 }
 
+// Render separate paths XP chart
 function renderSeparateXPChart(
   svg,
   pathData,
@@ -206,7 +199,14 @@ function renderSeparateXPChart(
     svgContent += generatePathContent(data, color, xScale, yScale);
   });
 
-  svgContent += generateChartLabels(width, height, maxXP, minDate, maxDate);
+  svgContent += generateAxisLabels(
+    width,
+    height,
+    maxXP,
+    minDate,
+    maxDate,
+    "XP by Path"
+  );
   svg.innerHTML = svgContent;
 
   const g = svg.querySelector("g");
@@ -224,6 +224,7 @@ function renderSeparateXPChart(
   });
 }
 
+// Create interactive circle for tooltips
 function createInteractiveCircle(cx, cy, data, color) {
   const circle = document.createElementNS(
     "http://www.w3.org/2000/svg",
@@ -250,6 +251,7 @@ function createInteractiveCircle(cx, cy, data, color) {
   return circle;
 }
 
+// Generate SVG for cumulative XP chart
 function generateXPChartSVG(
   pathData,
   width,
@@ -279,7 +281,8 @@ function generateXPChartSVG(
               maxXP,
               dateTicks,
               xScale,
-              yScale
+              yScale,
+              "Cumulative XP"
             )}
         </g>
     `;
@@ -310,18 +313,36 @@ function generatePathContent(data, color, xScale, yScale) {
     `;
 }
 
-function generateAxisLabels(width, height, maxXP, dateTicks, xScale, yScale) {
-  return `
+function generateAxisLabels(
+  width,
+  height,
+  maxXP,
+  dateTicksOrMinDate,
+  xScaleOrMaxDate,
+  yScaleOrUndefined,
+  yAxisLabel = "Cumulative XP"
+) {
+  // Handle two different call patterns:
+  // 1. With dateTicks, xScale, yScale (from cumulative chart)
+  // 2. With minDate, maxDate only (from separate chart)
+
+  if (Array.isArray(dateTicksOrMinDate)) {
+    // Pattern 1: Cumulative chart with dateTicks, xScale, yScale
+    const dateTicks = dateTicksOrMinDate;
+    const xScale = xScaleOrMaxDate;
+    const yScale = yScaleOrUndefined;
+
+    return `
         <text x="-40" y="${yScale(
           maxXP
         )}" text-anchor="middle" font-size="12" fill="#666">${formatXP(
-    maxXP
-  )}</text>
+      maxXP
+    )}</text>
         <text x="-40" y="${yScale(
           maxXP / 2
         )}" text-anchor="middle" font-size="12" fill="#666">${formatXP(
-    maxXP / 2
-  )}</text>
+      maxXP / 2
+    )}</text>
         <text x="-40" y="${yScale(
           0
         )}" text-anchor="middle" font-size="12" fill="#666">0</text>
@@ -334,38 +355,41 @@ function generateAxisLabels(width, height, maxXP, dateTicks, xScale, yScale) {
           )
           .join("")}
         <text x="${width / 2}" y="${
-    height + 35
-  }" text-anchor="middle" font-size="12" fill="#666">Time</text>
+      height + 35
+    }" text-anchor="middle" font-size="12" fill="#666">Time</text>
         <text x="-50" y="${
           height / 2
         }" text-anchor="middle" font-size="12" fill="#666" transform="rotate(-90, -50, ${
-    height / 2
-  })">Cumulative XP</text>
+      height / 2
+    })">${yAxisLabel}</text>
     `;
-}
+  } else {
+    // Pattern 2: Separate chart with minDate, maxDate
+    const minDate = dateTicksOrMinDate;
+    const maxDate = xScaleOrMaxDate;
 
-function generateChartLabels(width, height, maxXP, minDate, maxDate) {
-  return `
+    return `
         <text x="-40" y="0" text-anchor="middle" font-size="12" fill="#666">${maxXP}</text>
         <text x="-40" y="${
           height / 2
         }" text-anchor="middle" font-size="12" fill="#666">${Math.round(
-    maxXP / 2
-  )}</text>
+      maxXP / 2
+    )}</text>
         <text x="-40" y="${height}" text-anchor="middle" font-size="12" fill="#666">0</text>
         <text x="0" y="${
           height + 25
         }" text-anchor="middle" font-size="10" fill="#666">${minDate.toLocaleDateString()}</text>
         <text x="${width}" y="${
-    height + 25
-  }" text-anchor="middle" font-size="10" fill="#666">${maxDate.toLocaleDateString()}</text>
+      height + 25
+    }" text-anchor="middle" font-size="10" fill="#666">${maxDate.toLocaleDateString()}</text>
         <text x="${width / 2}" y="${
-    height + 35
-  }" text-anchor="middle" font-size="12" fill="#666">Time</text>
+      height + 35
+    }" text-anchor="middle" font-size="12" fill="#666">Time</text>
         <text x="-50" y="${
           height / 2
         }" text-anchor="middle" font-size="12" fill="#666" transform="rotate(-90, -50, ${
-    height / 2
-  })">XP by Path</text>
+      height / 2
+    })">${yAxisLabel}</text>
     `;
+  }
 }

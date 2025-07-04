@@ -1,8 +1,4 @@
-/**
- * Animation de fond inspirée du clair-obscur (chiaroscuro)
- * Crée des effets de lumière dorée qui dansent sur un fond sombre
- */
-
+// Chiaroscuro-inspired background animation with golden light effects
 class ChiaroscuroBackground {
   constructor() {
     this.canvas = null;
@@ -12,13 +8,13 @@ class ChiaroscuroBackground {
     this.animationId = null;
     this.isInitialized = false;
 
-    // Configuration de l'animation
+    // Animation configuration
     this.config = {
       lightSourcesCount: 3,
       particlesCount: 80,
       lightIntensity: 0.3,
       animationSpeed: 0.02,
-      goldColor: [255, 215, 0], // RGB du doré
+      goldColor: [255, 215, 0],
       fadeSpeed: 0.95,
     };
   }
@@ -103,11 +99,11 @@ class ChiaroscuroBackground {
 
   updateLightSources() {
     this.lightSources.forEach((light) => {
-      // Mouvement organique
+      // Organic movement
       light.x += light.speedX;
       light.y += light.speedY;
 
-      // Rebond sur les bords
+      // Bounce on edges
       if (
         light.x < -light.radius ||
         light.x > window.innerWidth + light.radius
@@ -121,7 +117,7 @@ class ChiaroscuroBackground {
         light.speedY *= -1;
       }
 
-      // Pulsation
+      // Pulsation effect
       light.pulse += light.pulseSpeed;
       light.currentIntensity = light.intensity + Math.sin(light.pulse) * 0.1;
     });
@@ -132,7 +128,7 @@ class ChiaroscuroBackground {
       particle.x += particle.speedX;
       particle.y += particle.speedY;
 
-      // Recyclage des particules
+      // Recycle particles that go off screen
       if (
         particle.x < 0 ||
         particle.x > window.innerWidth ||
@@ -143,7 +139,7 @@ class ChiaroscuroBackground {
         particle.y = Math.random() * window.innerHeight;
       }
 
-      // Animation de vie
+      // Life animation
       particle.life += 0.005;
       particle.opacity = 0.3 + Math.sin(particle.life) * 0.2;
     });
@@ -153,11 +149,11 @@ class ChiaroscuroBackground {
     const { ctx, canvas } = this;
     const { goldColor } = this.config;
 
-    // Effacement avec fade
+    // Fade effect
     ctx.fillStyle = "rgba(13, 13, 13, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Rendu des sources de lumière
+    // Render light sources
     this.lightSources.forEach((light) => {
       const gradient = ctx.createRadialGradient(
         light.x,
@@ -190,14 +186,14 @@ class ChiaroscuroBackground {
       );
     });
 
-    // Rendu des particules dorées
+    // Render golden particles
     this.particles.forEach((particle) => {
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${goldColor[0]}, ${goldColor[1]}, ${goldColor[2]}, ${particle.opacity})`;
       ctx.fill();
 
-      // Effet de brillance
+      // Shine effect
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${goldColor[0]}, ${goldColor[1]}, ${
@@ -218,14 +214,14 @@ class ChiaroscuroBackground {
   bindEvents() {
     window.addEventListener("resize", () => {
       this.resizeCanvas();
-      // Repositionner les éléments si nécessaire
+      // Reposition elements if needed
       this.lightSources.forEach((light) => {
         if (light.x > window.innerWidth) light.x = window.innerWidth;
         if (light.y > window.innerHeight) light.y = window.innerHeight;
       });
     });
 
-    // Effet de parallaxe au mouvement de la souris
+    // Parallax effect on mouse movement
     document.addEventListener("mousemove", (e) => {
       const mouseX = e.clientX / window.innerWidth;
       const mouseY = e.clientY / window.innerHeight;
@@ -248,7 +244,7 @@ class ChiaroscuroBackground {
     this.isInitialized = false;
   }
 
-  // Méthodes pour contrôler l'intensité
+  // Methods to control intensity
   setIntensity(intensity) {
     this.config.lightIntensity = Math.max(0, Math.min(1, intensity));
     this.lightSources.forEach((light) => {
@@ -270,10 +266,10 @@ class ChiaroscuroBackground {
   }
 }
 
-// Instance globale
+// Global instance
 let chiaroscuroBackground = null;
 
-// API publique
+// Public API
 export function initChiaroscuroBackground() {
   if (!chiaroscuroBackground) {
     chiaroscuroBackground = new ChiaroscuroBackground();

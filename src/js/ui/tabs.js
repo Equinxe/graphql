@@ -1,7 +1,4 @@
-/**
- * Modular tabs management using the new filter and stats system
- */
-
+// Modular tabs management using the filter and stats system
 import {
   getTabData,
   getAuditRatioForTab,
@@ -49,11 +46,7 @@ export function initializeTabListeners(user) {
   });
 }
 
-/**
- * Update tab content using the new modular system
- * @param {Object} user - User data object
- * @param {string} tab - Tab identifier
- */
+// Update tab content using the modular system
 function updateTabContent(user, tab) {
   // Get filtered data and configuration for the tab
   const { transactions, progresses, config } = getTabData(user, tab);

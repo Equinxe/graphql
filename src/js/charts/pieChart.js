@@ -36,7 +36,7 @@ export function createAuditRatioChart(user, svgId = "successChart") {
   if (!svg) return;
   svg.innerHTML = "";
 
-  // Calculer le pourcentage de vert (ratio * 50 pour avoir 50% max)
+  // Calculate green percentage (ratio * 50 for 50% max)
   const auditRatio = Math.min(Math.max(user.auditRatio || 0, 0), 1);
   const greenPercentage = auditRatio * 50;
 
@@ -44,11 +44,11 @@ export function createAuditRatioChart(user, svgId = "successChart") {
   const centerY = 100;
   const radius = 60;
 
-  // Convertir les pourcentages en angles pour le graphique circulaire
+  // Convert percentages to angles for pie chart
   const greenAngle = (greenPercentage / 100) * 360;
   const redAngle = 360 - greenAngle;
 
-  // Créer les chemins pour les portions verte et rouge
+  // Create paths for green and red portions
   const greenPath = createPieSlice(centerX, centerY, radius, 0, greenAngle);
   const redPath = createPieSlice(centerX, centerY, radius, greenAngle, 360);
 

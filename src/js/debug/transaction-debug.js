@@ -1,18 +1,10 @@
-/**
- * Debug utilities for tab data validation
- */
-
+// Debug utilities for tab data validation
 import { formatXP } from "../utils.js";
 import { deduplicateTransactions } from "../filters/filter-manager.js";
 
-/**
- * Debug function to log transaction data for validation
- * @param {Array} transactions - Filtered transactions
- * @param {string} tab - Tab identifier
- * @param {Object} user - User data object
- */
+// Debug function to log transaction data for validation
 export function debugTransactions(transactions, tab, user) {
-  // Debug simple pour vérification
+  // Simple debug for verification
   console.log(`=== ${tab.toUpperCase()} ===`);
   console.log(
     `XP: ${formatXP(transactions.reduce((sum, t) => sum + t.amount, 0))}`
@@ -23,12 +15,7 @@ export function debugTransactions(transactions, tab, user) {
   console.log("=================");
 }
 
-/**
- * Detailed debug function with transaction breakdown
- * @param {Array} transactions - Filtered transactions
- * @param {string} tab - Tab identifier
- * @param {boolean} detailed - Show detailed breakdown
- */
+// Detailed debug function with transaction breakdown
 export function debugTransactionsDetailed(transactions, tab, detailed = false) {
   const uniqueTransactions = deduplicateTransactions(transactions);
   const totalXP = transactions.reduce((sum, t) => sum + t.amount, 0);

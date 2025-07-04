@@ -1,24 +1,18 @@
-import { createCumulativeXPChart } from "../charts/xpCharts.js";
-import { createAuditRatioChart } from "../charts/pieChart.js";
-import { showError } from "../utils.js";
-import { logout } from "../auth.js";
-import { updateSectionVisibility } from "./sections.js";
 import {
   updateUserAttributes,
   initializeAttributesToggle,
 } from "./userAttributes.js";
 import { initializeTabListeners, renderTabContent } from "./tabs.js";
 import { formatXP, formatAuditRatio } from "../utils.js";
+import { getUserEmail, parseUserAttributes } from "../helpers/userHelpers.js";
 
 export async function updateProfile(user) {
-  console.log("updateProfile called with user:", user);
-
   // Update basic user info
   updateBasicInfo(user);
 
   // Update user attributes
   let userAttrs = parseUserAttributes(user);
-  console.log("Parsed user attributes:", userAttrs);
+
   updateUserAttributes(userAttrs, user);
   initializeAttributesToggle();
 
@@ -56,38 +50,6 @@ function updateBasicInfo(user) {
   const emailSecondary = document.getElementById("userEmailSecondary");
   if (emailSecondary) {
     emailSecondary.textContent = getUserEmail(user) || "N/A";
-  }
-}
-
-function getUserEmail(user) {
-  // Try to get email from different possible sources
-  if (user.email) return user.email;
-  if (user.attrs && typeof user.attrs === "object" && user.attrs.email)
-    return user.attrs.email;
-  if (user.attrs && typeof user.attrs === "string") {
-    try {
-      const parsed = JSON.parse(user.attrs);
-      if (parsed.email) return parsed.email;
-    } catch (e) {
-      console.log("Could not parse attrs for email");
-    }
-  }
-  return "N/A";
-}
-
-function parseUserAttributes(user) {
-  console.log("parseUserAttributes called with user.attrs:", user.attrs);
-  try {
-    if (user.attrs && typeof user.attrs === "string") {
-      const parsed = JSON.parse(user.attrs);
-      console.log("Parsed attrs from string:", parsed);
-      return parsed;
-    }
-    console.log("Returning attrs as object:", user.attrs || {});
-    return user.attrs || {};
-  } catch (e) {
-    console.log("Failed to parse attrs:", e);
-    return {};
   }
 }
 

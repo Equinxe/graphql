@@ -1,7 +1,4 @@
-/**
- * Cursus filter logic
- * Handles filtering for main cursus data (excludes piscines)
- */
+// Cursus filter logic - handles filtering for main cursus data (excludes piscines)
 
 // Filter transactions for cursus (excludes piscines but includes main JS project)
 export function filterCursusTransactions(transactions) {
